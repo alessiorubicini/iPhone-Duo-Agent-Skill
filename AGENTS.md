@@ -1,122 +1,101 @@
-# AGENTS.md — Foundation Models Skill: Agent Author Guide
+# AGENTS.md — iPhone Duo Agent Skill Author Guide
 
-This document defines the content contract for `apple-foundation-models-skill`.  
-Read this before contributing or modifying any reference file.
-
----
+This file is the contribution contract for `iphone-duo-agent-skill`.
 
 ## Purpose
 
-This skill enhances agent reasoning about Apple's `FoundationModels` framework by providing:
+The skill gives coding agents operational knowledge for designing, auditing, implementing, and validating native iPhone Duo apps. It turns Apple's six iPhone Duo Tech Talks into task-oriented guidance while keeping undocumented iOS 27.1 API details quarantined for later verification.
 
-1. **Accurate API surface** — no hallucinated types, methods, or parameters.
-2. **Correctness invariants** — rules the agent must enforce in generated code.
-3. **Decision trees** — routing logic so the agent selects the right reference file.
-4. **Boundary enforcement** — explicit list of what this skill does NOT cover.
+## Source hierarchy
 
----
+Use evidence in this order:
 
-## How This Skill Enhances Agent Reasoning
+1. `sources/` — primary repository evidence: official Apple Tech Talk transcripts and extracted code.
+2. Published Apple Developer Documentation for iOS 27.1 — add only after it is publicly accessible and record it in `iphone-duo-agent-skill/references/api-status.md`.
+3. Established Apple-platform adaptive-layout practice — label it as general guidance, never as Duo-specific API behavior.
 
-When a user asks the agent to write, review, or debug `FoundationModels` code, the agent:
+Never turn a talk's conceptual description into an API signature. Code tasks may reuse a transcript snippet, but must identify it as transcript-derived and require SDK verification until the corresponding API is documented.
 
-1. Reads `SKILL.md` to load the mental model and active invariants.
-2. Consults `references/_index.md` to identify which reference files apply.
-3. Pulls the relevant reference(s) for the specific API surface involved.
-4. Applies the correctness invariants before emitting any code.
+## Content boundaries
 
-This layered approach keeps `SKILL.md` token-efficient (fast to load) while ensuring deep accuracy for complex tasks (reference files loaded on demand).
+### Covered
 
----
+- Adaptive SwiftUI and UIKit layouts across outer/inner displays, resizing, multitasking, and poses
+- Safe areas, asymmetric margins, concentric geometry, reserved regions, displacement, and arrangements
+- Navigation containers, presentations, vertical bars, item representations, and overflow
+- Display-local state, scene geometry, multiple scenes, hinge observation, and scene accessories
+- Camera discovery, camera direction, preview composition, rotation, and dual-display capture experiences
+- Continuity of state and capability across pose/display transitions
+- Accessibility and pose-aware validation
+- Transcript-backed iOS 27.1 Duo API inventory and documentation gaps
 
-## Content Boundaries
+### Not covered
 
-### This skill covers
+- General SwiftUI, UIKit, AVFoundation, or accessibility tutorials unrelated to iPhone Duo
+- Unpublished API declarations, inferred availability annotations, concurrency contracts, defaults, edge cases, or compatibility behavior
+- Hardware specifications or product behavior absent from the six checked-in Apple sources
+- Private APIs, device detection, model-identifier branching, or hinge-driven layout when arrangement/region APIs are appropriate
 
-- All public API in the `FoundationModels` framework (iOS 26.0+)
-- Concurrency patterns *specific to* `LanguageModelSession` and `Tool`
-- Integration with SwiftUI `@State`, `@Observable`, and `.task`
-- Error handling for `LanguageModelSession.GenerationError`
-- Performance patterns unique to on-device LLM inference
+## Correctness invariants
 
-### This skill does NOT cover
+1. Start from standard adaptive Apple containers and environment/trait inputs; add Duo-specific logic only when content purpose requires it.
+2. Preserve content, controls, hierarchy, and task state across displays and poses. A pose may change presentation, not capability.
+3. Use size classes, local geometry, safe areas, layout margins, and scene-local screen data. Do not branch on device model, idiom, fixed display metrics, or `UIScreen.main`.
+4. Treat opposite safe-area and margin edges independently.
+5. Use arrangements and reserved regions for layout; use hinge observation for interactions/effects, not as a replacement layout engine.
+6. Keep scrollable continuous content continuous; do not displace it merely because a division region becomes active.
+7. Use system navigation, bars, presentations, and overflow before custom equivalents so fold avoidance and axis adaptation remain system-managed.
+8. Never invent iOS 27.1 signatures or behavior. Mark all transcript-only APIs `Documentation pending` until verified against published Apple API documentation.
+9. Separate static review/build evidence from Device Hub, runtime, accessibility, camera, and transition verification.
+10. Every Duo-specific factual claim in a reference must cite at least one talk ID defined in `references/source-map.md`.
 
-- General Swift Concurrency → use the [Swift Concurrency Skill](https://github.com/AvdLee/Swift-Concurrency-Agent-Skill)
-- General SwiftUI patterns → use the [SwiftUI Expert Skill](https://github.com/AvdLee/SwiftUI-Agent-Skill)
-- CoreML, Create ML, or Vision framework
-- Server-side / Private Cloud Compute (PCC) endpoints
-- Third-party LLM SDKs (OpenAI, Anthropic, etc.)
-- LoRA adapter training (Python toolkit — not the Swift API)
+## Prohibited patterns
 
----
-
-## Correctness Invariants
-
-These rules must be enforced in every code output:
-
-| # | Invariant |
-|---|---|
-| 1 | Always gate on `SystemLanguageModel.default.availability` before creating a session. |
-| 2 | `LanguageModelSession` must be `@State` or actor-isolated — never a local `let` in a button action. |
-| 3 | Every `session.respond(to:)` / `session.streamResponse(to:)` call must be inside `do/catch` for `GenerationError`. |
-| 4 | Handle `.exceededContextWindowSize` explicitly — create a fresh session or truncate transcript. |
-| 5 | `@Generable` types must be `struct` or `enum`. Classes are not supported. |
-| 6 | `@Guide` constraints must match the property's type (`String` → `.regex`, `Int` → `.count`, enum → `.anyOf`). |
-| 7 | `Tool.call(arguments:)` is `async throws` — always propagate errors; never `try?` silently. |
-| 8 | Never block the main actor — use `Task { }` or `.task { }` for all session calls. |
-| 9 | Call `session.prewarm()` during idle time (e.g., `onAppear`), not immediately before `respond`. |
-| 10 | Combined context (input + output) is capped at **4 096 tokens**. Design prompts and expected outputs accordingly. |
-
----
-
-## Prohibited Patterns
-
-Do not emit code containing:
+Do not recommend:
 
 ```swift
-// ❌ No availability check
-let session = LanguageModelSession()
-let r = try! session.respond(to: prompt) // force-try
+// Device- and dimension-specific branching
+if UIDevice.current.model == "iPhone Duo" || width == 1536 { ... }
 ```
 
 ```swift
-// ❌ Blocking main thread
-let response = try await session.respond(to: prompt) // called directly in View.body
+// Symmetric inset assumption
+let width = view.bounds.width - view.safeAreaInsets.left * 2
 ```
 
 ```swift
-// ❌ Class with @Generable (unsupported)
-@Generable class Recipe { ... }
+// Hinge angle used as a hand-built layout breakpoint
+.onHingeChange { _, context in
+    isTwoColumn = context.hinge?.angle.degrees ?? 0 > 90
+}
 ```
 
----
+## Repository organization
 
-## Tone & Style
+- `iphone-duo-agent-skill/SKILL.md` — concise routing and core reasoning rules
+- `iphone-duo-agent-skill/references/` — task-oriented operational guidance
+- `sources/` — immutable primary evidence except when correcting extraction against Apple originals
+- `.agents/skills/update-iphone-duo-apis/` — maintenance workflow for future Apple documentation
+- `SOURCE_COVERAGE.md` — talk-to-reference coverage audit
+- `API_REFERENCE_ROADMAP.md` — future iOS 27.1 documentation integration contract
 
-- **Apple-Engineering tone**: prescriptive, dense, no filler.
-- All code in **Swift 6**. Use `isolated` parameters, `actor`, and structured concurrency.
-- Prefer `for try await partial in stream { }` over callback-based patterns.
-- Use `@MainActor` on view models; use `actor` for non-UI managers.
-- Do not suggest `DispatchQueue.main.async` — it is superseded by Swift Concurrency.
+## Writing and code conventions
 
----
+- Use canonical terms from `references/glossary.md`.
+- Distinguish **Requirement**, **Heuristic**, **Transcript API**, and **Documentation pending** where ambiguity could affect generated code.
+- Prefer rules, decision tables, and small source-accurate examples over narrative summaries.
+- Keep transcript excerpts faithful. Fix obvious transcript formatting only when meaning is unchanged; note any normalization.
+- Avoid unsupported imports, deployment targets, availability checks, protocol conformances, or failure semantics.
+- Link related references instead of copying detail.
 
-## Adding New Reference Files
+## Adding or updating a reference
 
-1. Place the file in `apple-foundation-models-skill/references/`.
-2. Add an entry to `references/_index.md` with a one-line description.
-3. Add a trigger condition in `SKILL.md` under **Reference Map**.
-4. All claims must cite an Apple documentation URL or WWDC session.  
-   Uncitable claims → write: _"Technical details pending official release."_
-
----
+1. Select the developer task, not the originating talk, as the file boundary.
+2. Add the file to `references/_index.md` and the router in `SKILL.md`.
+3. Add talk IDs beside Duo-specific claims and update `SOURCE_COVERAGE.md`.
+4. Add new iOS 27.1 symbols or documentation status changes to `references/api-status.md`.
+5. Run the checks documented in `CONTRIBUTING.md`.
 
 ## Maintenance
 
-Run the meta-skill after new iOS / Xcode releases:
-
-```
-Use the update-foundation-apis skill and scan for deprecated FoundationModels APIs in iOS 26.5+.
-```
-
-See `.agents/skills/update-foundation-apis.md` for the automated workflow.
+When Apple publishes iOS 27.1 API documentation, use `.agents/skills/update-iphone-duo-apis/SKILL.md`. Documentation must strengthen the existing task-oriented references; it must not replace them with an API catalog or require structural redesign.

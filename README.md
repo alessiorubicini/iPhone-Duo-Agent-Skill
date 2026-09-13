@@ -1,120 +1,107 @@
-# Apple Foundation Models Skill
+# iPhone Duo Agent Skill
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![GitHub Release](https://img.shields.io/github/v/release/alessiorubicini/Apple-Foundation-Models-Agent-Skill)](https://github.com/alessiorubicini/Apple-Foundation-Models-Agent-Skill/releases)
-[![GitHub Stars](https://img.shields.io/github/stars/alessiorubicini/Apple-Foundation-Models-Agent-Skill?style=flat)](https://github.com/alessiorubicini/Apple-Foundation-Models-Agent-Skill/stargazers)
+[![Agent Skills](https://img.shields.io/badge/Agent%20Skills-compatible-5B5BD6)](https://agentskills.io)
 
-> **Early version:** This skill is still in active development. It may lag behind the latest `FoundationModels` APIs, tools, or OS releases, and some material may be incomplete or incorrect. Treat it as guidance only. Verify behavior with [Apple’s Foundation Models documentation](https://developer.apple.com/documentation/foundationmodels) and your target SDK before you ship.
+Operational guidance for AI coding agents that design, audit, implement, and validate native SwiftUI and UIKit apps for iPhone Duo.
 
-Expert guidance for any AI coding assistant that supports the [Agent Skills open format](https://agentskills.io/home) — unlocking the power of Apple's on-device generative AI via the iOS 26+ and macOS 26+ `FoundationModels` framework.
+The skill is organized around developer decisions rather than video summaries: adaptive layout, displays and configurations, safe and reserved regions, arrangements, navigation and bars, scenes and hinge input, continuity, camera behavior, accessibility, and testing. Its current Duo-specific evidence comes from all six official Apple iPhone Duo Tech Talks checked into [`sources/`](sources/).
 
-This repository aims to give your AI agent actionable, deeply technical references for building with `SystemLanguageModel`, with best-practice patterns for Swift 6 concurrency, hardware performance, structured data extraction, and tool calling.
+## Evidence boundary
 
-## Who this is for
-- Developers integrating Apple Intelligence into their native apps.
-- Teams migrating server-side LLM calls to secure, on-device execution.
-- Engineers navigating the strict concurrency and context-window limitations of local foundation models.
-- Anyone building native AI features using `@Generable`, real-time streaming, and custom `Tool` implementations.
+The iOS 27.1 API documentation is not yet available. Consequently:
 
-## How to Use This Skill
+- New API names and snippets are retained only where Apple showed or stated them in the Tech Talks.
+- Transcript-derived APIs are clearly marked `Documentation pending`.
+- The skill does not invent declarations, availability, framework ownership, overloads, semantics, or fallbacks.
+- Agents are instructed to separate supported design guidance from code that still requires SDK/documentation verification.
 
-### Option A: Using skills.sh
-Install this skill with a single command via the Agent Skills CLI:
+The repository already has a dedicated [API status inventory](iphone-duo-agent-skill/references/api-status.md), [source map](iphone-duo-agent-skill/references/source-map.md), and [integration roadmap](API_REFERENCE_ROADMAP.md), so the future iOS 27.1 reference can be incorporated without reorganizing the skill.
+
+## Install
+
+### Agent Skills CLI
 
 ```bash
-npx skills add https://github.com/alessiorubicini/Apple-Foundation-Models-Agent-Skill --skill apple-foundation-models-skill
+npx skills add https://github.com/alessiorubicini/iPhone-Duo-Agent-Skill --skill iphone-duo-agent-skill
 ```
 
-Then prompt your AI agent (e.g., Cursor, Claude, or Copilot):
-> *"Use the apple foundation models skill and help me write a custom Tool for fetching weather data to inject into my LanguageModelSession."*
-
-### Option B: Claude Code Plugin
-
-To install this Skill for your personal use in Claude Code:
-
-1. Add the marketplace:
-```bash
-/plugin marketplace add alessiorubicini/Apple-Foundation-Models-Agent-Skill
-```
-
-2. Install the Skill:
-```bash
-/plugin install foundation-models@apple-foundation-models-skill
-```
-
-#### Project Configuration (For Teams)
-To automatically provide this Skill to everyone working in a repository, configure your project's `.claude/settings.json`:
-
-```json
-{
-  "enabledPlugins": {
-    "foundation-models@apple-foundation-models-skill": true
-  },
-  "extraKnownMarketplaces": {
-    "apple-foundation-models-skill": {
-      "source": {
-        "source": "github",
-        "repo": "alessiorubicini/Apple-Foundation-Models-Agent-Skill"
-      }
-    }
-  }
-}
-```
-
-### Option C: Manual Install (Codex / OpenAI-compatible tools)
-1. **Clone** this repository.
-2. **Copy or symlink** the `apple-foundation-models-skill/` folder into your tool's designated skills directory. For example, with Codex:
-```bash
-cp -R apple-foundation-models-skill/ "$CODEX_HOME/skills/apple-foundation-models-skill"
-```
-3. **Use your AI tool** as usual and explicitly ask it to refer to the "apple foundation models skill".
-
-**How to verify it's working**:
-Your agent should start acknowledging hardware availability checks (`SystemLanguageModel.default.availability`), using `@Generable` for structured outputs, and wrapping LLM calls in proper Swift 6 `@MainActor` or `actor` isolations as defined in the `SKILL.md` workflow.
-
-## What's Inside
-
-This skill covers the entire surface area of the `FoundationModels` framework. Because reference files load on demand, your agent gets highly targeted, context-efficient guidance exactly when it needs it.
-
-- **Core Models & Availability** — Managing `SystemLanguageModel` states, adapters (`.default` vs `.contentTagging`), and hardware eligibility.
-- **Session Lifecycle** — Building stateful `LanguageModelSession` instances, crafting developer instructions, and managing transcript histories.
-- **Guided Generation** — Forcing structural token output natively using the `@Generable` macro and `@Guide` constraints.
-- **Tool Calling** — Expanding the model's capabilities with real-time data by implementing the `Tool` protocol.
-- **Streaming** — Handling real-time UI updates with `streamResponse` and managing `PartiallyGenerated` types.
-- **Error Handling & Fallbacks** — Proactive recovery strategies for `.exceededContextWindowSize` and unsupported locales.
-- **Concurrency** — Swift 6 invariants, `Sendable` conformance, and preventing data races in session transcripts.
-- **Performance** — Memory footprints, KV-cache behavior, and achieving sub-150ms latency using `prewarm()`.
-
-## Skill Structure
+### Claude Code plugin
 
 ```text
-apple-foundation-models-skill/
-  SKILL.md
-  references/
-    _index.md                 - Quick navigation and file routing for the agent
-    concurrency.md            - Actor isolation, Sendable tools, and @MainActor rules
-    error-handling.md         - Context overflow recovery and availability fallbacks
-    generation-options.md     - Temperature, sampling (.greedy/.random), and token limits
-    glossary.md               - Canonical terminology for the framework
-    guided-generation.md      - @Generable, @Guide, and DynamicGenerationSchema
-    performance.md            - RAM footprint, token budgets, and prewarming techniques
-    session-lifecycle.md      - Instructions, transcript arrays, and session instantiation
-    streaming.md              - Async streams and PartiallyGenerated UI handling
-    system-language-model.md  - Hardware checks, locales, and model adapters
-    tool-calling.md           - The Tool protocol, arguments, and execution delegates
+/plugin marketplace add alessiorubicini/iPhone-Duo-Agent-Skill
+/plugin install iphone-duo-agent@iphone-duo-agent-skill
 ```
+
+### Manual installation
+
+Copy or symlink [`iphone-duo-agent-skill/`](iphone-duo-agent-skill/) into the skills directory used by the coding agent. For Codex:
+
+```bash
+cp -R iphone-duo-agent-skill "$CODEX_HOME/skills/iphone-duo-agent-skill"
+```
+
+Then invoke it explicitly when needed:
+
+```text
+Use $iphone-duo-agent-skill to audit this camera app for iPhone Duo.
+```
+
+See [USAGE.md](USAGE.md) for realistic task prompts and expected output boundaries.
+
+## What the skill enables
+
+- Audit existing apps for resizability, local geometry, asymmetric safe areas, and multitasking
+- Choose between natural flow, displacement, standard navigation, split/overlay arrangements, and reserved-region handling
+- Adapt navigation, toolbars, tab bars, presentations, custom items, and overflow to vertical-bar contexts
+- Reason about scene-local displays, multiple windows, hinge-driven interactions, and scene accessories
+- Plan camera selection and transitions using the Virtual Front Camera or individually selected cameras
+- Preserve state, capability, hierarchy, and accessibility across outer/inner display and pose changes
+- Produce a Device Hub validation matrix without overstating unperformed runtime checks
+
+## Current Apple sources
+
+| Tech Talk | Primary coverage |
+|---|---|
+| [Prepare your app for iPhone Duo](https://developer.apple.com/videos/play/tech-talks/111461/) | SDK opt-in, resizability, size classes, safe areas, standard containers, Device Hub |
+| [Raise the Bar with iPhone Duo](https://developer.apple.com/videos/play/tech-talks/111462/) | Vertical navigation/tool/tab bars, item axis behavior, compression, overflow |
+| [Strike a pose with adaptive layouts on iPhone Duo](https://developer.apple.com/videos/play/tech-talks/111463/) | Displacement, reserved regions, split and overlay arrangements |
+| [Leverage multiple displays and scenes on iPhone Duo](https://developer.apple.com/videos/play/tech-talks/111464/) | Hinge observation, multitasking, multiple scenes, scene accessories |
+| [Build a great camera experience for iPhone Duo](https://developer.apple.com/videos/play/tech-talks/111465/) | Virtual/physical front cameras, direction, preview, rotation, dual-display capture |
+| [Design for iPhone Duo](https://developer.apple.com/videos/play/tech-talks/111466/) | Design principles, pose adaptation, reachability, continuity, fold avoidance |
+
+Detailed coverage is audited in [SOURCE_COVERAGE.md](SOURCE_COVERAGE.md).
+
+This is an independent community project and is not affiliated with or endorsed by Apple. Apple source material and trademarks remain subject to their respective terms; see [NOTICE.md](NOTICE.md).
+
+## Repository structure
+
+```text
+iphone-duo-agent-skill/
+  SKILL.md                         concise operating rules and topic router
+  agents/openai.yaml              OpenAI skill metadata
+  assets/logo.svg                 skill icon
+  references/
+    _index.md                     task-to-reference router
+    adaptive-layouts.md
+    reserved-regions-and-arrangements.md
+    navigation-bars-and-presentations.md
+    displays-scenes-and-hinge.md
+    camera-experiences.md
+    continuity-and-accessibility.md
+    testing-and-validation.md
+    api-status.md
+    source-map.md
+    glossary.md
+sources/                           primary Tech Talk transcripts and extracted code
+.agents/skills/update-iphone-duo-apis/
+                                     future API documentation refresh workflow
+```
+
 ## Contributing
 
-Contributions, fixes, and improvements are highly encouraged! See **[CONTRIBUTING.md](CONTRIBUTING.md)** for the full guide: the content contract in [AGENTS.md](AGENTS.md), which files to edit, the pull request checklist, and how to refresh documentation after new OS or Xcode releases.
-
-This repository adheres strictly to the [Agent Skills open format](https://agentskills.io/home), which dictates specific structural constraints to remain machine-readable.
-
-## Acknowledgments
-
-The technical guidelines encoded in this skill are derived entirely from Apple's official WWDC25 documentation and sessions, specifically:
-- *Meet the Foundation Models framework*
-- *Deep Dive into the Foundation Models Framework*
+Read [AGENTS.md](AGENTS.md) for the evidence and content contract, then follow [CONTRIBUTING.md](CONTRIBUTING.md). Duo-specific factual changes require traceability to official Apple material.
 
 ## License
 
-This skill is open-source and available under the MIT License. See the [LICENSE](LICENSE) file for more information.
+Original skill content and tooling: [MIT](LICENSE). Third-party source material: [NOTICE.md](NOTICE.md).

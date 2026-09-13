@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title description">
+  <title id="title">iPhone Duo Agent Skill</title>
+  <desc id="description">Two blue display panels joined by a luminous hinge.</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071A3D"/>
+      <stop offset="1" stop-color="#164FA8"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8ED9FF"/>
+      <stop offset="1" stop-color="#2D7CFF"/>
+    </linearGradient>
+  </defs>
+  <rect width="256" height="256" rx="52" fill="url(#background)"/>
+  <path d="M38 59c0-10 8-18 18-18h54c7 0 13 6 13 13v148c0 7-6 13-13 13H56c-10 0-18-8-18-18V59Z" fill="url(#panel)" stroke="#DDF5FF" stroke-width="5"/>
+  <path d="M133 54c0-7 6-13 13-13h54c10 0 18 8 18 18v138c0 10-8 18-18 18h-54c-7 0-13-6-13-13V54Z" fill="url(#panel)" stroke="#DDF5FF" stroke-width="5"/>
+  <path d="M128 50v156" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity=".95"/>
+  <circle cx="195" cy="64" r="6" fill="#071A3D" opacity=".8"/>
+  <path d="M65 178h33M158 178h33" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" opacity=".9"/>
+</svg>

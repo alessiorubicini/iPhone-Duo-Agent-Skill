@@ -1,37 +1,33 @@
 {
-	"name": "apple-foundation-models-skill",
-	"version": "1.0.0",
-	"description": "Agent Skill for Apple Foundation Models framework.",
-	"skill": "apple-foundation-models-expert",
-	"skillFolder": "apple-foundation-models-skill",
-	"author": "Alessio Rubicini",
-	"license": "MIT",
-	"keywords": [
-	  "apple",
-	  "foundation-models",
-	  "on-device-ai",
-	  "swift",
-	  "ios26",
-	  "xcode26",
-	  "llm",
-	  "agent-skill"
-	],
-	"requirements": {
-	  "ios": ">=26.0",
-	  "macos": ">=26.0",
-	  "xcode": ">=26.0",
-	  "swift": ">=6.0",
-	  "appleIntelligence": true
-	},
-	"repository": {
-	  "type": "git",
-	  "url": "https://github.com/alessiorubicini/Apple-Foundation-Models-Agent-Skill"
-	},
-	"agentSkillFormat": "1.0",
-	"compatibleTools": [
-	  "claude-code",
-	  "cursor",
-	  "codex",
-	  "gemini-cli"
-	]
-  }
+  "name": "iphone-duo-agent-skill",
+  "version": "1.0.0",
+  "description": "Operational guidance for coding agents building adaptive native apps for iPhone Duo.",
+  "skill": "iphone-duo-agent-skill",
+  "skillFolder": "iphone-duo-agent-skill",
+  "author": "Alessio Rubicini",
+  "license": "MIT",
+  "keywords": [
+    "iphone-duo",
+    "ios",
+    "swiftui",
+    "uikit",
+    "agent-skill",
+    "adaptive-layout"
+  ],
+  "requirements": {
+    "platform": "Apple platforms",
+    "sdk": "iOS 27.1 for Duo-specific APIs",
+    "language": "Swift"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alessiorubicini/iPhone-Duo-Agent-Skill.git"
+  },
+  "agentSkillFormat": "1.0",
+  "compatibleTools": [
+    "codex",
+    "claude-code",
+    "cursor",
+    "agent-skills-compatible-tools"
+  ]
+}

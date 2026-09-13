@@ -1,0 +1,9 @@
+interface:
+  display_name: "iPhone Duo Agent Skill"
+  short_description: "Build adaptive native apps for iPhone Duo"
+  icon_small: "./assets/logo.svg"
+  icon_large: "./assets/logo.svg"
+  brand_color: "#2667FF"
+  default_prompt: "Use $iphone-duo-agent-skill to audit this native iOS feature for adaptive iPhone Duo behavior."
+policy:
+  allow_implicit_invocation: true

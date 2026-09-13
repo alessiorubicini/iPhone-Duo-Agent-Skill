@@ -1,25 +1,21 @@
 {
-	"name": "apple-foundation-models",
-	"version": "1.0.0",
-	"description": "Expert Apple FoundationModels guidance: SystemLanguageModel, LanguageModelSession, Generable, Tool, adapters, streaming, and GenerationError handling for iOS 26+.",
-	"author": {
-		"name": "Apple Foundation Models Agent Skill contributors"
-	},
-	"repository": "https://github.com/alessiorubicini/Apple-Foundation-Models-Agent-Skill",
-	"license": "MIT",
-	"logo": "assets/logo.svg",
-	"keywords": [
-		"swift",
-		"ios",
-		"apple",
-		"foundation-models",
-		"apple-intelligence",
-		"on-device-llm",
-		"generable",
-		"tool-calling",
-		"language-model-session"
-	],
-	"skills": [
-		"./apple-foundation-models-skill"
-	]
+  "name": "iphone-duo-agent",
+  "version": "1.0.0",
+  "description": "Operational guidance for coding agents building adaptive native apps for iPhone Duo.",
+  "author": {
+    "name": "Alessio Rubicini"
+  },
+  "repository": "https://github.com/alessiorubicini/iPhone-Duo-Agent-Skill",
+  "license": "MIT",
+  "logo": "iphone-duo-agent-skill/assets/logo.svg",
+  "keywords": [
+    "iphone-duo",
+    "ios",
+    "swiftui",
+    "uikit",
+    "adaptive-layout"
+  ],
+  "skills": [
+    "./iphone-duo-agent-skill"
+  ]
 }
