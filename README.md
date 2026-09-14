@@ -47,7 +47,7 @@ Then invoke it explicitly when needed:
 Use $iphone-duo-agent-skill to audit this camera app for iPhone Duo.
 ```
 
-See [USAGE.md](USAGE.md) for realistic task prompts and expected output boundaries.
+See [USAGE](USAGE.md) for realistic task prompts and expected output boundaries.
 
 ## What the skill enables
 
@@ -70,9 +70,9 @@ See [USAGE.md](USAGE.md) for realistic task prompts and expected output boundari
 | [Build a great camera experience for iPhone Duo](https://developer.apple.com/videos/play/tech-talks/111465/) | Virtual/physical front cameras, direction, preview, rotation, dual-display capture |
 | [Design for iPhone Duo](https://developer.apple.com/videos/play/tech-talks/111466/) | Design principles, pose adaptation, reachability, continuity, fold avoidance |
 
-Detailed coverage is audited in [SOURCE_COVERAGE.md](SOURCE_COVERAGE.md).
+Detailed coverage is audited in [SOURCE_COVERAGE](SOURCE_COVERAGE.md).
 
-This is an independent community project and is not affiliated with or endorsed by Apple. Apple source material and trademarks remain subject to their respective terms; see [NOTICE.md](NOTICE.md).
+This is an independent community project and is not affiliated with or endorsed by Apple. Apple source material and trademarks remain subject to their respective terms; see [NOTICE](NOTICE.md).
 
 ## Repository structure
 
@@ -100,8 +100,8 @@ sources/                           primary Tech Talk transcripts and extracted c
 
 ## Contributing
 
-Read [AGENTS.md](AGENTS.md) for the evidence and content contract, then follow [CONTRIBUTING.md](CONTRIBUTING.md). Duo-specific factual changes require traceability to official Apple material.
+Read [AGENTS](AGENTS.md) for the evidence and content contract, then follow [CONTRIBUTING](CONTRIBUTING.md). Duo-specific factual changes require traceability to official Apple material.
 
 ## License
 
-Original skill content and tooling: [MIT](LICENSE). Third-party source material: [NOTICE.md](NOTICE.md).
+Original skill content and tooling: [MIT](LICENSE). Third-party source material: [NOTICE](NOTICE.md).
